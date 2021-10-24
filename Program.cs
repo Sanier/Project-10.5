@@ -5,16 +5,22 @@ namespace Project_10._5
     class Program
     {
 
+        static ILogger Logger;
+
         static ICalculate Sum { get; set; }
         static void Main(string[] args)
         {
-
             Sum = new Sum();
+
+            Logger = new Logger();
+
+            Console.WriteLine("Нужно ввести 3 значение по примеру:\n 6 \n * \n 5");
 
             while (true)
             {
                 try
                 {
+                    
                     int a = int.Parse(Console.ReadLine());
                     string sign = Console.ReadLine();
                     int b = int.Parse(Console.ReadLine());
@@ -24,28 +30,28 @@ namespace Project_10._5
                     {
                         case "/":
                             {
-                                Console.WriteLine(Sum.Div(a, b));
+                                Logger.Event(Sum.Div(a, b));
 
                                 break;
                             }
 
                         case "*":
                             {
-                                Console.WriteLine(Sum.Mult(a, b));
+                                Logger.Event(Sum.Mult(a, b));
 
                                 break;
                             }
 
                         case "+":
                             {
-                                Console.WriteLine(Sum.Sum(a, b));
+                                Logger.Event(Sum.Sum(a, b));
 
                                 break;
                             }
 
                         case "-":
                             {
-                                Console.WriteLine(Sum.Sub(a, b));
+                                Logger.Event(Sum.Sub(a, b));
 
                                 break;
                             }
@@ -59,22 +65,22 @@ namespace Project_10._5
 
                 catch (DivideByZeroException)
                 {
-                    Console.WriteLine("Деление на ноль!");
+                    Logger.Error("Деление на ноль!");     
                 }
 
                 catch (OverflowException)
                 {
-                    Console.WriteLine("Сорян, слишком большоооооооое число. Не могу показать");
+                    Logger.Error("Сорян, слишком большоооооооое число. Не могу показать");
                 }
 
                 catch (ArgumentException)
                 {
-                    Console.WriteLine("Так делать низя");
+                    Logger.Error("Так делать низя");
                 }
 
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    Console.WriteLine("Ошибка {0}", ex);
+                    Logger.Error("Непредвиденная ошибка");
                 }
             }
 
@@ -89,6 +95,13 @@ namespace Project_10._5
             int Mult(int a, int b);
 
             int Sub(int a, int b);
+        }
+
+        public interface ILogger
+        {
+            void Event(int number);
+
+            void Error(string message);
         }
     }
 }

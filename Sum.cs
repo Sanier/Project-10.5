@@ -9,7 +9,6 @@ namespace Project_10._5
 {
     public class Sum : ICalculate
     {
-        ICalculate sum { get; }
 
         int ICalculate.Div(int a, int b)
         {
